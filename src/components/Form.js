@@ -36,7 +36,7 @@ export default function Form() {
   });
 
   // new state to set our post request too. So we can console.log and see it.
-  const [post, setPost] = useState([]);
+  const [post, setPost] = useState(null);
 
   useEffect(() => {
     formSchema.isValid(formState).then(valid => {
@@ -45,6 +45,7 @@ export default function Form() {
   }, [formState]);
 
   const formSubmit = e => {
+    debugger;
     e.preventDefault();
     axios
       .post("https://reqres.in/api/users", formState)
@@ -103,6 +104,7 @@ export default function Form() {
           name='name'
           value={formState.name}
           onChange={inputChange}
+          data-cy='name'
         />
         {errors.name.length > 0 ? <p className='error'>{errors.name}</p> : null}
       </label>
@@ -113,6 +115,7 @@ export default function Form() {
           name='email'
           value={formState.email}
           onChange={inputChange}
+          data-cy='email'
         />
         {errors.email.length > 0 ? (
           <p className='error'>{errors.email}</p>
@@ -124,6 +127,7 @@ export default function Form() {
           name='motivation'
           value={formState.motivation}
           onChange={inputChange}
+          data-cy='motivation'
         />
         {errors.motivation.length > 0 ? (
           <p className='error'>{errors.motivation}</p>
@@ -131,7 +135,7 @@ export default function Form() {
       </label>
       <label htmlFor='positions'>
         What would you like to help with?
-        <select id='positions' name='positions' onChange={inputChange}>
+        <select id='positions' name='positions' onChange={inputChange} data-cy='positions'>
           <option value='Newsletter'>Newsletter</option>
           <option value='Yard Work'>Yard Work</option>
           <option value='Administrative Work'>Administrative Work</option>
@@ -148,8 +152,8 @@ export default function Form() {
         Terms & Conditions
       </label>
       {/* displaying our post request data */}
-      <pre>{JSON.stringify(post, null, 2)}</pre>
-      <button disabled={buttonDisabled}>Submit</button>
+      {post && <pre>{JSON.stringify(post, null, 2)}</pre>}
+      <button disabled={buttonDisabled} data-cy='submit'>Submit</button>
     </form>
   );
 }
